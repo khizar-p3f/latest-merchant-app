@@ -1,0 +1,35 @@
+@import 'index.less';
+body {
+    font-size: 14px;
+    font-family: 'Nanum Gothic', 'Open Sans', Anton;   
+    background-color:@layout-body-background;
+}
+#main-layout {
+    .main-header {
+        padding: 0 10px;
+        img.menu-icon{
+            height: 20px;
+            filter: invert(1);
+            margin-top: -7px;
+        }
+    }
+    #main-sidebar {
+        box-shadow: 1px 1px 3px 2px #ccc;       
+        .small-logo {
+            padding: 17px 20px;
+            background-color: #012C88;
+            box-shadow: 1px -6px 0px 6px #012c88;
+        }                 
+    }
+    .site-layout {
+        min-height: 100vh;
+        background-color:@btn-default-bg;
+    }
+    .ant-layout.site-layout{
+        .ant-layout-content{
+            min-height: 100vh;
+          
+        }
+    }
+}
+

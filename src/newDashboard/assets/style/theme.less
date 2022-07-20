@@ -1,0 +1,128 @@
+@primary-color: #6672ff;
+@secondary-color: #dfd9e0;
+@white-color: #fff;
+@dark-grey-color: #777;
+@yellow-color: #ffff9c;
+@box-shadow: 0 2px 0px 0px #e5e5e5;
+
+.ant-layout.newdashboard {
+  font-family: "Open Sans";
+  font-weight: 500;
+  font-size: 14px;
+
+  .ant-layout-header {
+    padding: 0;
+    height: 65px;
+    background-color: #fff;
+    //box-shadow: 0 2px 0px 0px #e5e5e5;
+    border-bottom: solid 1px #ccc;
+    z-index: 1;
+    .logo {
+      width: 250px;
+      float: left;
+      font-family: "Caveat";
+      font-size: 26px;
+      color: #0d42bb;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    .ant-menu-horizontal.ant-menu-light {
+      
+      //line-height: 55px;
+      .ant-menu-item {
+        &.ant-menu-item-selected {
+          //border-left: solid 1px #e5e5e5;
+          //border-right: solid 1px #e5e5e5;
+        }
+        padding: 0 10px;
+        font-size: 16px;
+        font-weight: 800;
+        svg {
+          color: @primary-color;
+          font-size: 18px;
+        }
+      }
+    }
+    .userinfo {
+      overflow: hidden;
+      height: 65px;
+      span {
+        text-overflow: ellipsis;
+        font-family: "Quicksand";
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+  .ant-layout-sider {
+    height: 100vh;
+    //box-shadow: 1px 1px 1px 1px #e5e5e5;
+    border-right: solid 1px #ccc;
+    p.nav {
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      background: #f0f2f54d;
+      border-bottom: solid 1px #ccc;
+
+      overflow: hidden;
+      cursor: pointer;
+      span {
+        overflow: hidden;
+        text-overflow: clip;
+      }
+    }
+    .ant-menu.ant-menu-light {
+      &.ant-menu-inline-collapsed {
+        .ant-menu-item {
+          .ant-menu-title-content{
+           
+            div{
+              padding: 0 30px;
+              margin-left: -32px;
+            }
+          }
+          svg {
+            color: @dark-grey-color;
+            font-size: 18px;
+          }
+        }
+      }
+      .ant-menu-item {
+        svg {
+          color: @primary-color;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  .main-content {
+    .notification {
+      background-color: #fff;
+      padding: 12px 20px;
+      font-size: 15px;
+      margin-bottom: 10px;
+      border-bottom: solid 1px #ccc;
+      line-height: inherit;
+      font-weight: 600;
+    }
+    .content {
+      min-height: 90vh;
+      padding: 20px;
+    }
+  }
+}
+
+.boxshadow {
+  box-shadow: @box-shadow;
+}
+.border-radius {
+  border-radius: 10px;
+}
+
+[class*="icon-"] {
+  font-size: 16px;
+  padding-right: 10px;
+  display: inline-block;
+}
