@@ -1,1 +1,10 @@
-{}
+{
+  "function": {
+    "disputesAndTransactions": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": []
+    }
+  }
+}
