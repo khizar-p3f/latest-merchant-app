@@ -19,8 +19,6 @@ ReactDOM.render(
     
     <Provider store={store}>
       <Router basepath="/">
-       {/*  <LandingPageMain path="/*" />
-        <MerchantDashboard path="/app/*" /> */}
         <NewDashboard   path="/*" />
       </Router>
     </Provider>

@@ -6,13 +6,7 @@ import { PageHeader, Layout, Menu, Avatar, Divider, Row, Col, Card, Input, Progr
 import logo from './assets/images/logo.png'
 const { Header, Content, Footer, Sider } = Layout;
 import SimpleLineIcon from 'react-simple-line-icons';
-
-
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faAddressBook, faHome, faBars, faShop, faAnchor, faProjectDiagram, faDashboard, faInfoCircle, faArrowAltCircleLeft, faCog, faUser } from '@fortawesome/free-solid-svg-icons'
 import TasksWidget from './component/tasks';
-
-
 const NewDashboard = () => {
     const [state, setState] = useState({ collapsed: false })
     return (
