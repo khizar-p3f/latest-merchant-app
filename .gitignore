@@ -30,6 +30,7 @@ amplify/mock-data
 amplify/backend/amplify-meta.json
 amplify/backend/.temp
 build/
+src/ui-components/
 dist/
 node_modules/
 aws-exports.js

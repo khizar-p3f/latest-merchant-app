@@ -44,9 +44,9 @@ module.exports = {
             loader: 'less-loader',
             options: {
               lessOptions: {
-                modifyVars: {
+                /* modifyVars: {
                   '@ant-theme-file': "; @import '" + path.join(__dirname, '/theme/index.less',) + "'",
-                },
+                }, */
                 javascriptEnabled: true
               },
             },
@@ -168,7 +168,7 @@ module.exports = {
     },
     minimizer: [
       new UglifyJsPlugin({
-        parallel: 10,
+        parallel: 20,
         test: /\.js($|\?)/i,
         sourceMap: true,
         uglifyOptions: {

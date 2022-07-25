@@ -4,9 +4,9 @@ import { schema } from './schema';
 
 
 
-const { Payments, Merchants } = initSchema(schema);
+const { PaymentAggregators, MerchantsProfile } = initSchema(schema);
 
 export {
-  Payments,
-  Merchants
+  PaymentAggregators,
+  MerchantsProfile
 };

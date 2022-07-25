@@ -17,6 +17,9 @@
           "deploymentBucketName": "amplify-amplify414c781046454-staging-123755-deployment",
           "s3Key": "amplify-builds/disputesAndTransactions-747a347a306a766b5144-build.zip"
         }
+      },
+      "auth": {
+        "latestmerchantapp": {}
       }
     }
   }

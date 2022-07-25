@@ -1,7 +1,7 @@
 export const schema = {
     "models": {
-        "Payments": {
-            "name": "Payments",
+        "PaymentAggregators": {
+            "name": "PaymentAggregators",
             "fields": {
                 "id": {
                     "name": "id",
@@ -17,8 +17,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "vendor_name": {
-                    "name": "vendor_name",
+                "aggregator": {
+                    "name": "aggregator",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "client_id": {
+                    "name": "client_id",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -31,22 +38,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "logo": {
-                    "name": "logo",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "api_key": {
-                    "name": "api_key",
+                "created_at": {
+                    "name": "created_at",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -70,7 +63,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Payments",
+            "pluralName": "PaymentAggregators",
             "attributes": [
                 {
                     "type": "model",
@@ -94,8 +87,8 @@ export const schema = {
                 }
             ]
         },
-        "Merchants": {
-            "name": "Merchants",
+        "MerchantsProfile": {
+            "name": "MerchantsProfile",
             "fields": {
                 "id": {
                     "name": "id",
@@ -104,43 +97,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "merchant_id": {
-                    "name": "merchant_id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "company": {
-                    "name": "company",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "established": {
-                    "name": "established",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "country": {
-                    "name": "country",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "state": {
-                    "name": "state",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "city": {
-                    "name": "city",
+                "auth_id": {
+                    "name": "auth_id",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -155,6 +113,20 @@ export const schema = {
                 },
                 "name": {
                     "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "company": {
+                    "name": "company",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "created_at": {
+                    "name": "created_at",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -178,7 +150,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Merchants",
+            "pluralName": "MerchantsProfiles",
             "attributes": [
                 {
                     "type": "model",
@@ -205,5 +177,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "6b1df68199a93a29745ea500c8fe521d"
+    "version": "12bb84196c98f866088d2a4200bb6b3b"
 };

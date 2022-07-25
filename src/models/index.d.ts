@@ -4,40 +4,36 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
-type PaymentsMetaData = {
+type PaymentAggregatorsMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type MerchantsMetaData = {
+type MerchantsProfileMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-export declare class Payments {
+export declare class PaymentAggregators {
   readonly id: string;
   readonly merchant_id?: string | null;
-  readonly vendor_name?: string | null;
+  readonly aggregator?: string | null;
+  readonly client_id?: string | null;
   readonly secret_key?: string | null;
-  readonly email?: string | null;
-  readonly logo?: string | null;
-  readonly api_key?: string | null;
+  readonly created_at?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Payments, PaymentsMetaData>);
-  static copyOf(source: Payments, mutator: (draft: MutableModel<Payments, PaymentsMetaData>) => MutableModel<Payments, PaymentsMetaData> | void): Payments;
+  constructor(init: ModelInit<PaymentAggregators, PaymentAggregatorsMetaData>);
+  static copyOf(source: PaymentAggregators, mutator: (draft: MutableModel<PaymentAggregators, PaymentAggregatorsMetaData>) => MutableModel<PaymentAggregators, PaymentAggregatorsMetaData> | void): PaymentAggregators;
 }
 
-export declare class Merchants {
+export declare class MerchantsProfile {
   readonly id: string;
-  readonly merchant_id?: string | null;
-  readonly company?: string | null;
-  readonly established?: string | null;
-  readonly country?: string | null;
-  readonly state?: string | null;
-  readonly city?: string | null;
+  readonly auth_id?: string | null;
   readonly email?: string | null;
   readonly name?: string | null;
+  readonly company?: string | null;
+  readonly created_at?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  constructor(init: ModelInit<Merchants, MerchantsMetaData>);
-  static copyOf(source: Merchants, mutator: (draft: MutableModel<Merchants, MerchantsMetaData>) => MutableModel<Merchants, MerchantsMetaData> | void): Merchants;
+  constructor(init: ModelInit<MerchantsProfile, MerchantsProfileMetaData>);
+  static copyOf(source: MerchantsProfile, mutator: (draft: MutableModel<MerchantsProfile, MerchantsProfileMetaData>) => MutableModel<MerchantsProfile, MerchantsProfileMetaData> | void): MerchantsProfile;
 }

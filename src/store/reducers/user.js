@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   isLoggedin: false,
-  user: null
+  isProfileCreated: false,
+  isAggregatorAdded: false,
 }
 
 export const userSlice = createSlice({
@@ -13,12 +14,22 @@ export const userSlice = createSlice({
       return {
         ...state,
         isLoggedin: true,
-        user: action.payload
+        authID:action.payload.sub,
+        ...action.payload
       }
     },
+    updateProfile: (state, action) => {
+      return {
+        ...state,
+        isProfileCreated: true,
+        id:action.payload.id,
+        ...action.payload
+      }
+    },
+
   },
 })
 // Action creators are generated for each case reducer function
-export const { updateUser } = userSlice.actions
+export const { updateUser, updateProfile } = userSlice.actions
 
 export default userSlice.reducer
