@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Col, Input, Layout, Menu, Row } from 'antd';
+import { Avatar, Col, Space, Layout, Menu, Row, Button } from 'antd';
 import SimpleLineIcon from 'react-simple-line-icons';
 import { useSelector } from 'react-redux';
+
+
 
 const { Header } = Layout;
 const DashboardHeader = () => {
@@ -18,26 +20,25 @@ const DashboardHeader = () => {
     return (
 
         <Header color='#fc6'>
-            <Row align='top' justify='space-between'>
-                <Col span={4}>
-                    <div className="logo" >
-                        {/* <img src={logo} width={150} /> */}
-                        <span style={{ color: '#6672ff' }}><SimpleLineIcon name="organization" /> Fusion</span><span style={{ color: '#d966ff' }}>Disputes</span>
-                    </div>
+            <Row align='top' justify='space-around'>
+                <Col span={4}><h2>Dashboard</h2></Col>
+                <Col span={6} offset={10}>
+                    <Space>
+                    <Button className='sec-button' type='default' size='middle' shape='round'><SimpleLineIcon name="layers" /> Create Disputes</Button>
+                    <Button className='sec-button' type='default' size='middle' shape='round'><SimpleLineIcon name="badge" /> Notification</Button>
+
+                    </Space>
                 </Col>
                 <Col span={4}>
-                    <Input.Search style={{ marginTop: 12 }} placeholder="Search" allowClear={true} size="large" />
-                </Col>
-                <Col span={4} offset={12}>
-                    <Menu theme="light" mode="horizontal" defaultSelectedKeys={['dashboard']}>
-                       {/*  <Menu.Item key="home"><SimpleLineIcon name="home" /> Home</Menu.Item>
+                    <Menu theme="light" mode="horizontal" defaultSelectedKeys={['about']}>
+                        {/*  <Menu.Item key="home"><SimpleLineIcon name="home" /> Home</Menu.Item>
                         <Menu.Item key="dashboard"><SimpleLineIcon name="briefcase" /> Dashboard</Menu.Item>
                         <Menu.Item key="abouts"><SimpleLineIcon name="layers" /> About us</Menu.Item>
                         <Menu.Item key="Pricing"><SimpleLineIcon name="speedometer" /> Pricing</Menu.Item>
                         <Menu.Item key="Contact"><SimpleLineIcon name="phone" /> Contact us</Menu.Item> */}
 
                         <Menu.Item key="about" icon={<Avatar size={40} src="https://joeschmoe.io/api/v1/random" />}>{state.user}</Menu.Item>
-                       {/*  <Menu.Item key="notification"><SimpleLineIcon name="settings" /></Menu.Item> */}
+                        <Menu.Item key="notification"><SimpleLineIcon name="settings" /></Menu.Item>
                     </Menu>
 
                 </Col>

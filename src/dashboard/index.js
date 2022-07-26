@@ -27,6 +27,16 @@ const DashboardIndexPage = () => {
     const [state, setState] = useState({
         collapsed: false
     })
+
+    /* useEffect(() => {
+        DataStore.delete(MerchantsProfile,(profile)=>profile.email('eq','khizaras@gmail.com')).then((res)=>{
+            console.log({res});
+        })
+    },[]) */
+
+
+
+
     useEffect(() => {
         const checkUserProfile = async (id) => {
             let result = await DataStore.query(MerchantsProfile, (profile) => profile.email('eq', id));
@@ -39,7 +49,7 @@ const DashboardIndexPage = () => {
                 if (result.length > 0) {
                     let userProfile = result[0]
                     dispatch(updateProfile({ ...userProfile }))
-                }else{
+                } else {
                     navigate("/new-user")
                 }
             })
@@ -50,20 +60,19 @@ const DashboardIndexPage = () => {
 
     return (
         <Layout className='newdashboard'>
-            <React.Suspense fallback={<Fallback />}>
+            <DashboardSidebar />
+            <Layout>
                 <DashboardHeader />
-                <Layout>
-                    <DashboardSidebar />
-                    <Content className='main-content'>
-                        <section className='notification'><SimpleLineIcon name="layers" /> Hi Guest, this is the notification area</section>
-                        <Router basepath="/">
-                            <BlankPage path="/" />
-                            <BlankPage path="/dashboard" />
-                            <CreateUserProfile path="/new-user" />
-                        </Router>
-                    </Content>
-                </Layout>
-            </React.Suspense>
+                <React.Suspense fallback={<Fallback />}>
+                <Content className='main-content'>                   
+                    <Router basepath="/">
+                        <BlankPage path="/" />
+                        <BlankPage path="/dashboard" />
+                        <CreateUserProfile path="/new-user" />
+                    </Router>
+                </Content>
+                </React.Suspense>
+            </Layout>
         </Layout>
     )
 }

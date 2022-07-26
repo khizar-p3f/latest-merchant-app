@@ -33,7 +33,7 @@ const CreateUserProfile = () => {
             email: e.email,
             name: e.name
         }
-        const newUserProfile = new MerchantsProfile()
+        const newUserProfile = new MerchantsProfile(profileData)
         DataStore.save(newUserProfile).then((insid) => {
             dispatch(updateProfile({ ...profileData,id:insid.id}))
             notification.success({
