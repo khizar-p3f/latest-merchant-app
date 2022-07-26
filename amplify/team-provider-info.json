@@ -1,25 +1,25 @@
 {
-  "staging": {
+  "prod": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify414c781046454-staging-123755-authRole",
-      "UnauthRoleArn": "arn:aws:iam::039289871235:role/amplify-amplify414c781046454-staging-123755-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::039289871235:role/amplify-amplify414c781046454-staging-123755-authRole",
+      "AuthRoleName": "amplify-latestmerchantapp-prod-195018-authRole",
+      "UnauthRoleArn": "arn:aws:iam::039289871235:role/amplify-latestmerchantapp-prod-195018-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::039289871235:role/amplify-latestmerchantapp-prod-195018-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-amplify414c781046454-staging-123755-deployment",
-      "UnauthRoleName": "amplify-amplify414c781046454-staging-123755-unauthRole",
-      "StackName": "amplify-amplify414c781046454-staging-123755",
-      "StackId": "arn:aws:cloudformation:us-east-1:039289871235:stack/amplify-amplify414c781046454-staging-123755/f20d1e80-08f1-11ed-95df-12316299bdf1",
+      "DeploymentBucketName": "amplify-latestmerchantapp-prod-195018-deployment",
+      "UnauthRoleName": "amplify-latestmerchantapp-prod-195018-unauthRole",
+      "StackName": "amplify-latestmerchantapp-prod-195018",
+      "StackId": "arn:aws:cloudformation:us-east-1:039289871235:stack/amplify-latestmerchantapp-prod-195018/15bc5fd0-0cee-11ed-96c2-1268ab70c2b9",
       "AmplifyAppId": "d4qm3ajyxotyk"
     },
     "categories": {
-      "function": {
-        "disputesAndTransactions": {
-          "deploymentBucketName": "amplify-amplify414c781046454-staging-123755-deployment",
-          "s3Key": "amplify-builds/disputesAndTransactions-747a347a306a766b5144-build.zip"
-        }
-      },
       "auth": {
         "latestmerchantapp": {}
+      },
+      "function": {
+        "disputesAndTransactions": {
+          "deploymentBucketName": "amplify-latestmerchantapp-prod-195018-deployment",
+          "s3Key": "amplify-builds/disputesAndTransactions-44386f4674734736444d-build.zip"
+        }
       }
     }
   }
