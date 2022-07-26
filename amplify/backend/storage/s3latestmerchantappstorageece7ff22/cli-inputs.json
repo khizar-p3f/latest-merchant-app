@@ -1,0 +1,16 @@
+{
+  "resourceName": "s3latestmerchantappstorageece7ff22",
+  "bucketName": "latest-merchant-app-storage-ece7ff22",
+  "policyUUID": "fd1fe685",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

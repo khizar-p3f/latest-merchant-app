@@ -20,6 +20,9 @@ const CreateUserProfile = () => {
         if (user.isLoggedin) {
             form.setFieldsValue({ ...user })
         }
+        if(user.isProfileCreated){
+            navigate("/dashboard")
+        }
     }, [user])
 
 

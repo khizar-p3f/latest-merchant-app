@@ -58,6 +58,7 @@ const DashboardIndexPage = () => {
                         <section className='notification'><SimpleLineIcon name="layers" /> Hi Guest, this is the notification area</section>
                         <Router basepath="/">
                             <BlankPage path="/" />
+                            <BlankPage path="/dashboard" />
                             <CreateUserProfile path="/new-user" />
                         </Router>
                     </Content>

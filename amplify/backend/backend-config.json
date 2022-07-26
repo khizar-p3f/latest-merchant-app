@@ -66,5 +66,12 @@
         }
       }
     }
+  },
+  "storage": {
+    "s3latestmerchantappstorageece7ff22": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
