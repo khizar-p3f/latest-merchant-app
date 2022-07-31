@@ -1,0 +1,26 @@
+.content.aggregator {
+  .aggreGators-grid {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 300px));
+    /* align-items: baseline; */
+    justify-content: center;
+    .items {
+      text-align: center;
+      height: 150px;
+      box-shadow: 0 0 3px 1px #ccc;
+      padding: 26px 0px;
+      .button {
+        &.selected{
+            .ant-btn{
+                background-color: #52c41a;
+                .icon-check{
+                    color:#fff
+                }
+            }
+        }
+        margin-top: 34px;
+      }
+    }
+  }
+}

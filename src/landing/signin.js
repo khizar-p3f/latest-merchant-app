@@ -13,7 +13,7 @@ import '@aws-amplify/ui-react/styles.css';
 import './assets/style/index.less';
 
 
-const theme = {name: 'my-theme',tokens: {colors: {font: {primary: { value: '#222' }}}}};
+const theme = { name: 'my-theme', tokens: { colors: { font: { primary: { value: '#222' } } } } };
 
 const SigninPage = () => {
 
@@ -22,16 +22,16 @@ const SigninPage = () => {
         isLoggedin: false,
         user: null
     })
+    const RedirectToPage = async (url = "/dashboard") => {
+        await navigate(url)
+    }
+    const checkUserProfile = async (id) => {
+        let result = await DataStore.query(MerchantsProfile, (profile) => profile.email('eq', id));
+        return result
+    }
 
     // when user directly lands on to this page, the below function will check the user is authenticated
     useEffect(() => {
-        const RedirectToPage = async (url="/dashboard") => {
-            await navigate(url)
-        }
-        const checkUserProfile = async (id) => {
-            let result = await DataStore.query(MerchantsProfile, (profile) => profile.email('eq', id));
-            return result
-        }
         Auth.currentAuthenticatedUser().then((login) => {
             const loginData = login?.attributes
             dispatch(updateUser({ ...loginData }))
@@ -39,7 +39,7 @@ const SigninPage = () => {
                 if (result.length > 0) {
                     let userProfile = result[0]
                     dispatch(updateProfile({ ...userProfile }))
-                }else{
+                } else {
                     RedirectToPage("/new-user")
                 }
             })
@@ -50,13 +50,21 @@ const SigninPage = () => {
     // When users signup or login, the below function will update the user data to the app.
     Hub.listen('auth', (data) => {
         const event = data.payload.event;
+        console.log({event});
         if (event === 'signIn') {
-            console.log('event:', event);
-            setState({
-                ...state,
-                isLoggedin: true,
-                user: data.payload
+            const login = data.payload.data
+            console.log({login});
+            const loginData = login?.attributes
+            dispatch(updateUser({ ...loginData }))
+            checkUserProfile(loginData.email).then((result) => {
+                if (result.length > 0) {
+                    let userProfile = result[0]
+                    dispatch(updateProfile({ ...userProfile }))
+                } else {
+                    RedirectToPage("/new-user")
+                }
             })
+            RedirectToPage()
         }
     });
 

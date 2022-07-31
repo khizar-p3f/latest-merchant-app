@@ -16,6 +16,7 @@ import 'antd/dist/antd.less';
 import 'antd/lib/style/themes/default.less';
 import './assets/style/theme.less';
 import Fallback from '../gc-components/fallback';
+import SaveAggregators from './pages/saveAggregators';
 
 const BlankPage = React.lazy(() => import('./pages/blank'));
 const CreateUserProfile = React.lazy(() => import('./pages/createProfile'));
@@ -69,6 +70,7 @@ const DashboardIndexPage = () => {
                         <BlankPage path="/" />
                         <BlankPage path="/dashboard" />
                         <CreateUserProfile path="/new-user" />
+                        <SaveAggregators path="/add-aggregators" />
                     </Router>
                 </Content>
                 </React.Suspense>
