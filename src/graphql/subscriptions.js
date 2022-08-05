@@ -2,8 +2,10 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreatePaymentAggregators = /* GraphQL */ `
-  subscription OnCreatePaymentAggregators {
-    onCreatePaymentAggregators {
+  subscription OnCreatePaymentAggregators(
+    $filter: ModelSubscriptionPaymentAggregatorsFilterInput
+  ) {
+    onCreatePaymentAggregators(filter: $filter) {
       id
       merchant_id
       aggregator
@@ -19,8 +21,10 @@ export const onCreatePaymentAggregators = /* GraphQL */ `
   }
 `;
 export const onUpdatePaymentAggregators = /* GraphQL */ `
-  subscription OnUpdatePaymentAggregators {
-    onUpdatePaymentAggregators {
+  subscription OnUpdatePaymentAggregators(
+    $filter: ModelSubscriptionPaymentAggregatorsFilterInput
+  ) {
+    onUpdatePaymentAggregators(filter: $filter) {
       id
       merchant_id
       aggregator
@@ -36,8 +40,10 @@ export const onUpdatePaymentAggregators = /* GraphQL */ `
   }
 `;
 export const onDeletePaymentAggregators = /* GraphQL */ `
-  subscription OnDeletePaymentAggregators {
-    onDeletePaymentAggregators {
+  subscription OnDeletePaymentAggregators(
+    $filter: ModelSubscriptionPaymentAggregatorsFilterInput
+  ) {
+    onDeletePaymentAggregators(filter: $filter) {
       id
       merchant_id
       aggregator
@@ -53,8 +59,10 @@ export const onDeletePaymentAggregators = /* GraphQL */ `
   }
 `;
 export const onCreateMerchantsProfile = /* GraphQL */ `
-  subscription OnCreateMerchantsProfile {
-    onCreateMerchantsProfile {
+  subscription OnCreateMerchantsProfile(
+    $filter: ModelSubscriptionMerchantsProfileFilterInput
+  ) {
+    onCreateMerchantsProfile(filter: $filter) {
       id
       auth_id
       email
@@ -70,8 +78,10 @@ export const onCreateMerchantsProfile = /* GraphQL */ `
   }
 `;
 export const onUpdateMerchantsProfile = /* GraphQL */ `
-  subscription OnUpdateMerchantsProfile {
-    onUpdateMerchantsProfile {
+  subscription OnUpdateMerchantsProfile(
+    $filter: ModelSubscriptionMerchantsProfileFilterInput
+  ) {
+    onUpdateMerchantsProfile(filter: $filter) {
       id
       auth_id
       email
@@ -87,8 +97,10 @@ export const onUpdateMerchantsProfile = /* GraphQL */ `
   }
 `;
 export const onDeleteMerchantsProfile = /* GraphQL */ `
-  subscription OnDeleteMerchantsProfile {
-    onDeleteMerchantsProfile {
+  subscription OnDeleteMerchantsProfile(
+    $filter: ModelSubscriptionMerchantsProfileFilterInput
+  ) {
+    onDeleteMerchantsProfile(filter: $filter) {
       id
       auth_id
       email

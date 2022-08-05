@@ -16,9 +16,9 @@
         "latestmerchantapp": {}
       },
       "function": {
-        "disputesAndTransactions": {
+        "paymentAggregatorFunction": {
           "deploymentBucketName": "amplify-latestmerchantapp-prod-195018-deployment",
-          "s3Key": "amplify-builds/disputesAndTransactions-44386f4674734736444d-build.zip"
+          "s3Key": "amplify-builds/paymentAggregatorFunction-4d5a4841413431573050-build.zip"
         }
       }
     }

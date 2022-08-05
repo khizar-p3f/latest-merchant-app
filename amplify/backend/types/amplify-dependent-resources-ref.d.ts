@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
-        "disputesAndTransactions": {
+        "paymentAggregatorFunction": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",

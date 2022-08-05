@@ -8,9 +8,10 @@ import { updateProfile } from '../../store/reducers/user';
 import { useDispatch } from 'react-redux';
 import { MerchantsProfile } from '../../models/';
 import { navigate } from '@reach/router';
-
+import { API} from 'aws-amplify'
 
 import '../assets/style/aggregators.less'
+import moment from 'moment-timezone';
 
 const { Title } = Typography
 const { Step } = Steps;
@@ -19,6 +20,8 @@ const { TabPane } = Tabs;
 const CreateUserProfile = () => {
     const dispatch = useDispatch()
     const [form] = Form.useForm();
+    const [ppform] = Form.useForm();
+    const [sqform]=Form.useForm()
     const [form2] = Form.useForm();
 
     const user = useSelector((state) => state.user)
@@ -27,24 +30,36 @@ const CreateUserProfile = () => {
         selected: [],
         aggreGators: [
             {
-                [form]: Form.useForm(),
+                form:ppform,
+                id: 0,
                 name: "PayPal",
+                fields: [
+                    {
+                        label: "PayPal Secret ID",
+                        name: "secret_id"
+                    },
+                    {
+                        label: "PayPal Secret Key",
+                        name: "secret_key"
+                    }
+                ],
                 logo: "https://1.bp.blogspot.com/-ro2dP_igRy4/YCAQM0M3GlI/AAAAAAAAJVg/Hz6jyEIBHzMqj3Hlsg9j6eE18Cz_24nQACLcBGAsYHQ/w400-h155/paypal-logo.png"
             },
             {
-                [form]: Form.useForm(),
-                name: "Square",
-                logo: "https://modernheating.com/wp-content/uploads/2022/02/square-300x75.png"
-            },
-            {
-                [form]: Form.useForm(),
-                name: "Klarna",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Klarna_Logo_black.svg/768px-Klarna_Logo_black.svg.png"
-            },
-            {
-                [form]: Form.useForm(),
+                id: 1,
+                form:sqform,
                 name: "Stripe",
-                logo: "https://events-export.businessfrance.fr/fintech-tour-north-america/wp-content/uploads/sites/828/1280px-Stripe_Logo_revised_2016.svg_.png"
+                fields: [
+                    {
+                        label: "Stripe Secret ID",
+                        name: "secret_id"
+                    },
+                    {
+                        label: "Stripe Secret Key",
+                        name: "secret_key"
+                    }
+                ],
+                logo: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
             },
         ],
         filerProps: {
@@ -98,10 +113,13 @@ const CreateUserProfile = () => {
     }
     const [state, setState] = useState({ ...initialState })
 
+    const callLocal=async()=>API.get("apiAggregator","/items")
+
     useEffect(() => {
         if (user.isLoggedin) {
             form.setFieldsValue({ ...user })
         }
+        callLocal().then((res)=>console.log({res}));
         /* if(user.isProfileCreated){
             navigate("/dashboard")
         } */
@@ -113,32 +131,48 @@ const CreateUserProfile = () => {
 
     };
 
-    const onFinishScreenOne = (e) => {
-        setState({ ...state, screen: 1 })
-        /* const profileData = {
-            auth_id: user.authID,
-            company: e.company,
-            email: e.email,
-            name: e.name
-        }
-        const newUserProfile = new MerchantsProfile(profileData)
-        DataStore.save(newUserProfile).then((insid) => {
-            dispatch(updateProfile({ ...profileData, id: insid.id }))
-            //notification.success({
-            //     message: `Records Added for the user: ${insid.id}`
-            // })
-            //navigate("/dashboard") 
-       
-        }).catch((ex) => {
-            notification.error({
-                message: ex.message
+    const onFinishScreenOne = async (e) => {
+        let currentUserState = user;
+
+        if (user.isProfileCreated) {
+            console.log(":: Profile page: Updated existing profile data :: ", user);
+            const previousProfile = await DataStore.query(MerchantsProfile, user.id);
+            await DataStore.save(
+                MerchantsProfile.copyOf(previousProfile, item => {
+                    item.company = e.company
+                    item.name = e.name
+                    setState({ ...state, screen: 1 })
+                })
+            )
+        } else {
+            console.log(":: Profile page: New profile created :: ", user);
+            const profileData = {
+                created_at: moment().format("YYYY-MM-DD"),
+                auth_id: user.authID,
+                company: e.company,
+                email: e.email,
+                name: e.name
+            }
+            const newUserProfile = new MerchantsProfile({
+                created_at
             })
-        }) */
+            DataStore.save(newUserProfile).then((insid) => {
+                dispatch(updateProfile({ ...profileData, id: insid.id }))
+                setState({ ...state, screen: 1 })
+            }).catch((ex) => {
+                notification.error({
+                    message: ex.message
+                })
+            })
+        }
+
 
     }
     /* screen2 related scripts */
     const onFinishScreenTwo = (e) => {
+        
     }
+
     const ChooseAggeregator = (aggregator) => {
         let { selected } = state
         let checkExist = selected.indexOf(aggregator)
@@ -148,17 +182,6 @@ const CreateUserProfile = () => {
             selected.push(aggregator)
         }
         setState({ ...state, selected })
-    }
-    const getLogo = (agg, type = "logo") => {
-        if (type === 'logo') {
-            const selected = state.aggreGators.filter((e) => e.name === agg)
-            return selected[0].logo
-
-        }
-        else {
-            const selected = state.aggreGators.filter((e) => e.name === agg)
-            return selected[0].form
-        }
     }
 
     /* screen3 related scripts */
@@ -274,31 +297,35 @@ const CreateUserProfile = () => {
                                 <Col span={24}>
                                     <Card bordered className='bordered box-shadow'>
                                         <Tabs>
-                                            {state.selected.map((agg) =>
-                                                <TabPane tab={<span><img height={30} src={getLogo(agg)} /></span>} key={agg}>
-                                                    <Typography.Title level={5}>Please add <u><em>{agg}</em></u> Details to proceed further</Typography.Title>
-                                                    <Typography.Paragraph  > Please be ensured that your credential informations are stored securly   </Typography.Paragraph>
-                                                    <Form onFinish={onFinishScreenTwo} layout="vertical" size="large" form={getLogo(agg, "form")} >
-                                                        <Form.Item name="secret_id" label={`${agg} Secret ID`} required tooltip="This is a required field">
-                                                            <Input placeholder="secret id" />
-                                                        </Form.Item>
-                                                        <Form.Item name="secret_key" label={`${agg} Secret Key`} required tooltip="This is a required field">
-                                                            <Input placeholder="secret key" />
-                                                        </Form.Item>
-
-                                                        <Divider />
-                                                        <Form.Item>
-                                                            <Space>
-                                                                <Button type="primary" size='large' htmlType='submit'><SimpleLineIcon name="user" /> Next </Button>
-                                                                <Button type="default" size='large' htmlType='reset'><SimpleLineIcon name="refresh" /> Reset</Button>
-                                                            </Space>
-                                                        </Form.Item>
-                                                        <Form.Item initialValue={agg} name="aggregator">
-                                                            <Input type="hidden" value={agg} />
-                                                        </Form.Item>
-                                                    </Form>
-                                                </TabPane>
-                                            )}
+                                            {state.selected.map((agg) => {
+                                                const sel = state.aggreGators.filter((e) => e.name === agg)
+                                                const selected = sel[0]
+                                                return (
+                                                    <TabPane tab={<span><img height={30} src={selected.logo} /></span>} key={agg}>
+                                                        <Typography.Title level={5}>Please add <u><em>{agg}</em></u> Details to proceed further</Typography.Title>
+                                                        <Typography.Paragraph  > Please be ensured that your credential informations are stored securly   </Typography.Paragraph>
+                                                        <Form onFinish={onFinishScreenTwo} layout="vertical" size="large" form={selected.form} >
+                                                            {
+                                                                selected.fields.map((field) =>
+                                                                    <Form.Item key={field.name} name={field.name} label={field.label} required tooltip="This is a required field">
+                                                                        <Input placeholder={field.label} />
+                                                                    </Form.Item>
+                                                                )
+                                                            }
+                                                            <Divider />
+                                                            <Form.Item>
+                                                                <Space>
+                                                                    <Button type="primary" size='large' htmlType='submit'><SimpleLineIcon name="user" /> Next </Button>
+                                                                    <Button type="default" size='large' htmlType='reset'><SimpleLineIcon name="refresh" /> Reset</Button>
+                                                                </Space>
+                                                            </Form.Item>
+                                                            <Form.Item initialValue={agg} name="aggregator">
+                                                                <Input type="hidden" value={agg} />
+                                                            </Form.Item>
+                                                        </Form>
+                                                    </TabPane>
+                                                )
+                                            })}
 
                                         </Tabs>
                                     </Card>
@@ -363,7 +390,7 @@ const CreateUserProfile = () => {
                                                             <Select.Option value=">=">Greater And Equal to</Select.Option>
                                                         </Select>
                                                     }
-                                                    {filt.properties =='' && <Select ></Select> }
+                                                    {filt.properties == '' && <Select ></Select>}
                                                 </Form.Item>
                                             </Col>
                                             {

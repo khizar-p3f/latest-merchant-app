@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  profile:{},
   isLoggedin: false,
   isProfileCreated: false,
   isAggregatorAdded: false,
@@ -21,6 +22,7 @@ export const userSlice = createSlice({
     updateProfile: (state, action) => {
       return {
         ...state,
+        profile:action.payload,
         isProfileCreated: true,
         id:action.payload.id,
         ...action.payload

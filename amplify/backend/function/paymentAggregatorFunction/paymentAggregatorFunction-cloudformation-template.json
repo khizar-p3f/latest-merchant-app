@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"9.1.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"9.2.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -15,6 +15,18 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "apilatestmerchantappGraphQLAPIIdOutput": {
+      "Type": "String",
+      "Default": "apilatestmerchantappGraphQLAPIIdOutput"
+    },
+    "apilatestmerchantappGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Default": "apilatestmerchantappGraphQLAPIEndpointOutput"
+    },
+    "apilatestmerchantappGraphQLAPIKeyOutput": {
+      "Type": "String",
+      "Default": "apilatestmerchantappGraphQLAPIKeyOutput"
     }
   },
   "Conditions": {
@@ -47,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "disputesAndTransactions",
+            "paymentAggregatorFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "disputesAndTransactions",
+                  "paymentAggregatorFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +81,15 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "API_LATESTMERCHANTAPP_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apilatestmerchantappGraphQLAPIIdOutput"
+            },
+            "API_LATESTMERCHANTAPP_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apilatestmerchantappGraphQLAPIEndpointOutput"
+            },
+            "API_LATESTMERCHANTAPP_GRAPHQLAPIKEYOUTPUT": {
+              "Ref": "apilatestmerchantappGraphQLAPIKeyOutput"
             }
           }
         },
@@ -89,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "latestmerchantappLambdaRole672b2c14",
+            "latestmerchantappLambdaRole79555fbf",
             {
               "Fn::Join": [
                 "",
                 [
-                  "latestmerchantappLambdaRole672b2c14",
+                  "latestmerchantappLambdaRole79555fbf",
                   "-",
                   {
                     "Ref": "env"
@@ -160,6 +181,93 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "appsync:GraphQL"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apilatestmerchantappGraphQLAPIIdOutput"
+                      },
+                      "/types/Query/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apilatestmerchantappGraphQLAPIIdOutput"
+                      },
+                      "/types/Mutation/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apilatestmerchantappGraphQLAPIIdOutput"
+                      },
+                      "/types/Subscription/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }
