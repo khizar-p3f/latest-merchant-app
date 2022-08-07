@@ -6,12 +6,23 @@ import { store } from './store'
 import { Provider } from 'react-redux'
 import reportWebVitals from "./gc-components/reportWebVitals";
 import DefaultErrorBoundary from "./gc-components/errorBoundary";
-import { Amplify } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 
 import awsExports from './aws-exports';
 import SigninPage from "./landing/signin";
 import DashboardIndexPage from "./dashboard";
-Amplify.configure(awsExports);
+
+Amplify.configure({
+  ...awsExports,
+  /* API: {
+    endpoints: [ 
+      {
+        name: "apiAggregatorFunctions",
+        endpoint: "https://m0guxo7wmf.execute-api.us-east-1.amazonaws.com/default/paymentAggregatorsEvents-prod"
+      }
+    ]
+  } */
+});
 
 
 
@@ -21,8 +32,8 @@ ReactDOM.render(
     <DefaultErrorBoundary>
       <Provider store={store}>
         <Router basepath="/">
-          <DashboardIndexPage path="/*" />            
-          <SigninPage path="/signin/*" />        
+          <DashboardIndexPage path="/*" />
+          <SigninPage path="/signin/*" />
         </Router>
       </Provider>
     </DefaultErrorBoundary>

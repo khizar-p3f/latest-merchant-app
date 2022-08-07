@@ -15,3 +15,4 @@ type MerchantsProfile @model @auth(rules: [{allow: public}]) {
   company: String
   created_at: String
 }
+ 

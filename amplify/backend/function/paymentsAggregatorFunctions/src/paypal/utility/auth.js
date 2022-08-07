@@ -1,4 +1,3 @@
-var { find, filter } = require('lodash')
 var qs = require('qs');
 var axios = require('axios').default
 
@@ -37,29 +36,14 @@ var AuthUtils = {
     validateCredentials: async (req) => {
         try {
             let result = AuthUtils.getAccessToken(req)
-            return {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*"
-                },
-                body: {
-                    result,
-                    req
-                },
-            };
+            return result;
         } catch (error) {
-            return {
-                statusCode: 500,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*"
-                },
-                body: {
-                    error,
-                    req
-                },
-            };
+            console.error(error.message);
+            let result = {
+                error: error.message,
+                req
+            }
+            return result
         }
     }
 

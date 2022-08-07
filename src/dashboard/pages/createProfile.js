@@ -6,9 +6,9 @@ import SimpleLineIcon from 'react-simple-line-icons';
 import { DataStore } from '@aws-amplify/datastore';
 import { updateProfile } from '../../store/reducers/user';
 import { useDispatch } from 'react-redux';
-import { MerchantsProfile } from '../../models/';
+import { MerchantsProfile, PaymentAggregators } from '../../models/';
 import { navigate } from '@reach/router';
-import { API} from 'aws-amplify'
+import { API } from 'aws-amplify'
 
 import '../assets/style/aggregators.less'
 import moment from 'moment-timezone';
@@ -21,16 +21,17 @@ const CreateUserProfile = () => {
     const dispatch = useDispatch()
     const [form] = Form.useForm();
     const [ppform] = Form.useForm();
-    const [sqform]=Form.useForm()
+    const [sqform] = Form.useForm()
     const [form2] = Form.useForm();
 
     const user = useSelector((state) => state.user)
     const initialState = {
         screen: 0,
         selected: [],
+        verifiedaggreGators: [],
         aggreGators: [
             {
-                form:ppform,
+                form: ppform,
                 id: 0,
                 name: "PayPal",
                 fields: [
@@ -43,12 +44,14 @@ const CreateUserProfile = () => {
                         name: "secret_key"
                     }
                 ],
+                validated: false,
                 logo: "https://1.bp.blogspot.com/-ro2dP_igRy4/YCAQM0M3GlI/AAAAAAAAJVg/Hz6jyEIBHzMqj3Hlsg9j6eE18Cz_24nQACLcBGAsYHQ/w400-h155/paypal-logo.png"
             },
             {
                 id: 1,
-                form:sqform,
+                form: sqform,
                 name: "Stripe",
+                validated: false,
                 fields: [
                     {
                         label: "Stripe Secret ID",
@@ -113,13 +116,14 @@ const CreateUserProfile = () => {
     }
     const [state, setState] = useState({ ...initialState })
 
-    const callLocal=async()=>API.get("apiAggregator","/items")
+
+
 
     useEffect(() => {
         if (user.isLoggedin) {
             form.setFieldsValue({ ...user })
         }
-        callLocal().then((res)=>console.log({res}));
+        //callLocal().then((res) => console.log({ res }));
         /* if(user.isProfileCreated){
             navigate("/dashboard")
         } */
@@ -132,8 +136,6 @@ const CreateUserProfile = () => {
     };
 
     const onFinishScreenOne = async (e) => {
-        let currentUserState = user;
-
         if (user.isProfileCreated) {
             console.log(":: Profile page: Updated existing profile data :: ", user);
             const previousProfile = await DataStore.query(MerchantsProfile, user.id);
@@ -165,12 +167,45 @@ const CreateUserProfile = () => {
                 })
             })
         }
-
-
     }
     /* screen2 related scripts */
     const onFinishScreenTwo = (e) => {
-        
+
+        if (e.aggregator === 'PayPal') {
+            const init = {
+                body: {
+                    "event_type": "validate",
+                    "client_secret": e.secret_key,   
+                    "client_id": e.secret_id,          
+                }
+            }
+            API.post("aggregatorBridgeApi", "/events", init).then((result) => {
+                if (result.access_token) {
+                    let verifiedaggreGators = state.verifiedaggreGators
+                    verifiedaggreGators.push(e.aggregator)
+
+                    const newAggregator = new PaymentAggregators({
+                        aggregator: e.aggregator,
+                        merchant_id: user.id,
+                        client_id: e.secret_id,
+                        secret_key: e.secret_key,
+                    })
+                    DataStore.save(newAggregator).then((insid) => {
+                        setState({
+                            ...state,
+                            verifiedaggreGators
+                        })
+                        notification.success({
+                            message: "PayPal Payments verified"
+                        })
+                    })
+                }
+            })
+
+        }
+
+
+
     }
 
     const ChooseAggeregator = (aggregator) => {
@@ -228,7 +263,7 @@ const CreateUserProfile = () => {
             <Row>
                 <Col span={24}>
                     <section className='wizard'>
-                        <Steps current={state.screen} onChange={onChange}>
+                        <Steps current={state.screen} /* onChange={onChange} */>
                             <Step title="Profile Setup" description="Company Details." icon={<SimpleLineIcon name="user" />} />
                             <Step title="Aggregater Setup" description="Payment Gateways." icon={<SimpleLineIcon name="envelope-letter" />} />
                             <Step title="Filters Setup" description="Define Rules." icon={<SimpleLineIcon name="basket-loaded" />} />

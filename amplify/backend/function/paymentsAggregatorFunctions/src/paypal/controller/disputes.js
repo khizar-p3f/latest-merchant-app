@@ -16,30 +16,14 @@ const disputesController = {
             let result = {
                 data: response.data
             }
-            return {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*"
-                },
-                body: {
-                    result,
-                    event
-                },
-            };
+            return result;
         } catch (error) {
             console.error(error.message);
-            return {
-                statusCode: 500,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "*"
-                },
-                body: {
-                    error,
-                    event
-                },
-            };
+            let result = {
+                error: error.message,
+                event
+            }
+            return result
         }
     }
 }

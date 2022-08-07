@@ -2,7 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import userSlice  from './reducers/user'
 import promise from 'redux-promise';
 import { combineReducers, compose } from 'redux';
-import  transactions  from './reducers/transactions';
+import  transactionsReducer  from './reducers/transactions';
+import  configReducer  from './reducers/config';
 
 const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     trace: true, 
@@ -12,7 +13,8 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
 export const store = configureStore({
     reducer: combineReducers({
         user:userSlice,
-        transactions:transactions
+        transactions:transactionsReducer,
+        config:configReducer,
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false

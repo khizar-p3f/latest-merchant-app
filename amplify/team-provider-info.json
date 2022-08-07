@@ -9,16 +9,17 @@
       "UnauthRoleName": "amplify-latestmerchantapp-prod-195018-unauthRole",
       "StackName": "amplify-latestmerchantapp-prod-195018",
       "StackId": "arn:aws:cloudformation:us-east-1:039289871235:stack/amplify-latestmerchantapp-prod-195018/15bc5fd0-0cee-11ed-96c2-1268ab70c2b9",
-      "AmplifyAppId": "d4qm3ajyxotyk"
+      "AmplifyAppId": "d4qm3ajyxotyk",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-latestmerchantapp-prod-195018-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "latestmerchantapp": {}
       },
       "function": {
-        "paymentAggregatorFunction": {
+        "paymentsAggregatorFunctions": {
           "deploymentBucketName": "amplify-latestmerchantapp-prod-195018-deployment",
-          "s3Key": "amplify-builds/paymentAggregatorFunction-4d5a4841413431573050-build.zip"
+          "s3Key": "amplify-builds/paymentsAggregatorFunctions-4a6152316c625948444f-build.zip"
         }
       }
     }

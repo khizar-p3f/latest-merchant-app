@@ -11,6 +11,7 @@ import { updateProfile, updateUser } from '../store/reducers/user';
 
 import '@aws-amplify/ui-react/styles.css';
 import './assets/style/index.less';
+import { getUserData } from '../dashboard/utils/dataStore';
 
 
 const theme = { name: 'my-theme', tokens: { colors: { font: { primary: { value: '#222' } } } } };
@@ -22,6 +23,7 @@ const SigninPage = () => {
         isLoggedin: false,
         user: null
     })
+
     const RedirectToPage = async (url = "/dashboard") => {
         await navigate(url)
     }
@@ -33,38 +35,38 @@ const SigninPage = () => {
     // when user directly lands on to this page, the below function will check the user is authenticated
     useEffect(() => {
         Auth.currentAuthenticatedUser().then((login) => {
-            const loginData = login?.attributes
-            dispatch(updateUser({ ...loginData }))
-            checkUserProfile(loginData.email).then((result) => {
-                if (result.length > 0) {
-                    let userProfile = result[0]
-                    dispatch(updateProfile({ ...userProfile }))
+            //setState({...state,isLoggedin:true})
+            const loginData = login?.attributes            
+            getUserData(loginData.email).then((reduxData) => {
+                dispatch(updateUser({ ...loginData }))
+                if (reduxData.profile.length > 0) {
+                    dispatch(updateProfile({ ...reduxData }))
+                    RedirectToPage()
                 } else {
-                    RedirectToPage("/new-user")
+                    navigate("/new-user")
                 }
             })
-            RedirectToPage()
         })
-    }, [state.user])
+    }, [state.isLoggedin])
 
     // When users signup or login, the below function will update the user data to the app.
     Hub.listen('auth', (data) => {
         const event = data.payload.event;
         console.log({event});
         if (event === 'signIn') {
-            const login = data.payload.data
+            setState({...state,isLoggedin:true})
+           /*  const login = data.payload.data
             console.log({login});
             const loginData = login?.attributes
-            dispatch(updateUser({ ...loginData }))
-            checkUserProfile(loginData.email).then((result) => {
-                if (result.length > 0) {
-                    let userProfile = result[0]
-                    dispatch(updateProfile({ ...userProfile }))
+            getUserData(loginData.email).then((reduxData) => {
+                dispatch(updateUser({ ...loginData }))
+                if (reduxData.profile.length > 0) {
+                    dispatch(updateProfile({ ...reduxData }))
+                    RedirectToPage()
                 } else {
-                    RedirectToPage("/new-user")
+                    navigate("/new-user")
                 }
-            })
-            RedirectToPage()
+            }) */
         }
     });
 

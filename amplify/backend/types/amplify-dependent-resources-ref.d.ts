@@ -1,11 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
-        "paymentAggregatorFunction": {
+        "paymentsAggregatorFunctions": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
-            "LambdaExecutionRole": "string",
-            "CloudWatchEventRule": "string"
+            "LambdaExecutionRole": "string"
         }
     },
     "auth": {
@@ -27,6 +26,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
+        },
+        "aggregatorBridgeApi": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "storage": {

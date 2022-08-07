@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  transactions: {
-    isLoaded: false,
-    data: []
-  }
+
+  isLoaded: false,
+  data: []
+
 }
 
 export const transactions = createSlice({

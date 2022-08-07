@@ -1,20 +1,9 @@
 {
   "function": {
-    "paymentAggregatorFunction": {
+    "paymentsAggregatorFunctions": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "latestmerchantapp",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
-          ]
-        }
-      ]
+      "service": "Lambda"
     }
   },
   "auth": {
@@ -75,6 +64,20 @@
           ]
         }
       }
+    },
+    "aggregatorBridgeApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "paymentsAggregatorFunctions",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "storage": {
