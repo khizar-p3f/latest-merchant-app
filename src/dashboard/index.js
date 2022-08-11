@@ -18,6 +18,7 @@ import './assets/style/theme.less';
 import Fallback from '../gc-components/fallback';
 import SaveAggregators from './pages/saveAggregators';
 import { getUserData } from './utils/dataStore';
+import CreateDisputeRules from './pages/disputeRules';
 
 const BlankPage = React.lazy(() => import('./pages/blank'));
 const CreateUserProfile = React.lazy(() => import('./pages/createProfile'));
@@ -68,6 +69,7 @@ const DashboardIndexPage = () => {
                             <Router basepath="/">
                                 <BlankPage path="/" />
                                 <BlankPage path="/dashboard" />
+                                <CreateDisputeRules path="/dispute-rules" />
                                 <CreateUserProfile path="/new-user" />
                                 <SaveAggregators path="/add-aggregators" />
                             </Router>

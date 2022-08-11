@@ -1,14 +1,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
-import { Card, Typography, Form, Input, Row, Col, Divider, Button, Space, notification, Steps, Result, Tabs, Select } from 'antd';
+import { Card, Typography, Form, Input, Row, Col, Divider, Button, Space, notification, Steps, Result, Tabs, Switch, Modal } from 'antd';
 import SimpleLineIcon from 'react-simple-line-icons';
 import { DataStore } from '@aws-amplify/datastore';
 import { updateProfile } from '../../store/reducers/user';
 import { useDispatch } from 'react-redux';
 import { MerchantsProfile, PaymentAggregators } from '../../models/';
 import { navigate } from '@reach/router';
-import { API } from 'aws-amplify'
+import { API, Auth } from 'aws-amplify'
 
 import '../assets/style/aggregators.less'
 import moment from 'moment-timezone';
@@ -27,6 +27,7 @@ const CreateUserProfile = () => {
     const user = useSelector((state) => state.user)
     const initialState = {
         screen: 0,
+        isModalVisible:false,
         selected: [],
         verifiedaggreGators: [],
         aggreGators: [
@@ -136,7 +137,7 @@ const CreateUserProfile = () => {
     };
 
     const onFinishScreenOne = async (e) => {
-        if (user.isProfileCreated) {
+        if (user?.profile?.length > 0) {
             console.log(":: Profile page: Updated existing profile data :: ", user);
             const previousProfile = await DataStore.query(MerchantsProfile, user.id);
             await DataStore.save(
@@ -155,11 +156,9 @@ const CreateUserProfile = () => {
                 email: e.email,
                 name: e.name
             }
-            const newUserProfile = new MerchantsProfile({
-                created_at
-            })
+            const newUserProfile = new MerchantsProfile(profileData)
             DataStore.save(newUserProfile).then((insid) => {
-                dispatch(updateProfile({ ...profileData, id: insid.id }))
+                dispatch(updateProfile({ profile: [profileData], id: insid.id }))
                 setState({ ...state, screen: 1 })
             }).catch((ex) => {
                 notification.error({
@@ -175,8 +174,8 @@ const CreateUserProfile = () => {
             const init = {
                 body: {
                     "event_type": "validate",
-                    "client_secret": e.secret_key,   
-                    "client_id": e.secret_id,          
+                    "client_secret": e.secret_key,
+                    "client_id": e.secret_id,
                 }
             }
             API.post("aggregatorBridgeApi", "/events", init).then((result) => {
@@ -193,7 +192,8 @@ const CreateUserProfile = () => {
                     DataStore.save(newAggregator).then((insid) => {
                         setState({
                             ...state,
-                            verifiedaggreGators
+                            verifiedaggreGators,
+                            screen: 2
                         })
                         notification.success({
                             message: "PayPal Payments verified"
@@ -217,6 +217,12 @@ const CreateUserProfile = () => {
             selected.push(aggregator)
         }
         setState({ ...state, selected })
+    }
+    const handleOk=()=>{
+        setState({...state, isModalVisible:true})
+        setTimeout(() => {
+            Auth.signOut().then(()=>navigate("/signin"))
+        }, 2500);
     }
 
     /* screen3 related scripts */
@@ -379,7 +385,61 @@ const CreateUserProfile = () => {
             }
             {
                 state.screen == 2 &&
-                <section className='filters'>
+                <section className='services'>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={24}>
+                            <Typography.Title level={4}>Please Choose the services you are intrested</Typography.Title>
+                            <Divider />
+                        </Col>
+                    </Row>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={20}>Enable All services or choose from below services</Col>
+                        <Col span={4}><Switch defaultChecked /></Col>
+                    </Row>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={20}>Conversational AI to resolve your customer issues</Col>
+                        <Col span={4}><Switch defaultChecked /></Col>
+                    </Row>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={20}>24/7 monitoring and notification of potential chargebacks</Col>
+                        <Col span={4}><Switch defaultChecked /></Col>
+                    </Row>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={20}>Robust workflow  - AI Recommendation for merchant to accept or contest disputes</Col>
+                        <Col span={4}><Switch defaultChecked /></Col>
+                    </Row>
+                    <Row style={{ margin: "20px 0" }}>
+                        <Col span={20}>Automate  dispute response</Col>
+                        <Col span={4}><Switch defaultChecked /></Col>
+                    </Row>
+                    <Divider />
+                    <Row style={{ marginTop: 30 }}>
+
+                        <Col span={4} offset={20}>
+                            <Button type='primary' block size='large' onClick={()=>handleOk()} >Save</Button>
+                        </Col>
+                    </Row>
+
+                    <Modal title="Setup Completed" visible={state.isModalVisible} onOk={handleOk} onCancel={handleOk}>
+                        <p> Congrats, You have completed the profile setup</p>
+                        <p>You may need to login agin to reflect the changes. This page will redirect in 10 seconds</p>                        
+                    </Modal>
+                </section>
+
+
+            }
+        </section>
+    )
+
+}
+
+export default CreateUserProfile
+
+
+
+/* 
+
+<section className='filters'>
                     <Row>
                         <Col span={24}>
                             <Typography.Title level={4}>Add Automatic action to your dispues</Typography.Title>
@@ -449,12 +509,5 @@ const CreateUserProfile = () => {
                     </Row>
                 </section>
 
-            }
 
-
-        </section>
-    )
-
-}
-
-export default CreateUserProfile
+*/

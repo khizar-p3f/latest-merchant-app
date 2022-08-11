@@ -1,3 +1,11 @@
+type MerchantsDisputeRules @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  merchant_id: String
+  rule_name: String
+  rule_data: String
+  rule_result: String
+}
+
 type PaymentAggregators @model @auth(rules: [{allow: public}]) {
   id: ID!
   merchant_id: String
@@ -15,4 +23,3 @@ type MerchantsProfile @model @auth(rules: [{allow: public}]) {
   company: String
   created_at: String
 }
- 
